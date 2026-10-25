@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Suppress Vite HMR WebSocket connection notices in iframe environment
+      window.addEventListener('error', function(e) {
+        if (e && (e.message && (e.message.includes('WebSocket') || e.message.includes('vite') || e.message.includes('closed without opened')))) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return true;
+        }
+      }, true);
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e && e.reason && String(e.reason).includes('WebSocket')) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }, true);
+    </script>
+    <title>Dev &amp; Sons Attendance Manager</title>
+    <meta name="description" content="Industrial staff attendance and payroll tracking system for Furnace A, Furnace B, and CCM Plant with real-time multi-device cloud sync." />
+    <meta name="theme-color" content="#ea580c" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Dev &amp; Sons Attendance" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:title" content="Dev &amp; Sons Attendance Manager" />
+    <meta property="og:description" content="Industrial staff attendance and payroll tracking system for Furnace A, Furnace B, and CCM Plant with real-time multi-device cloud sync." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

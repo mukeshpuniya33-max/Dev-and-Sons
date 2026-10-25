@@ -1,0 +1,6 @@
+{
+  "name": "Staff Attendance & Payroll Manager",
+  "description": "Industrial staff attendance tracking for Furnace A, Furnace B, and CCM with shift codes and auto payout calculation. [v2]",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

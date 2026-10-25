@@ -1,0 +1,229 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and metadata",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User ID matching auth.uid"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "User avatar photo URL"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "WorkerRecord": {
+      "title": "WorkerRecord",
+      "description": "Staff worker details and ordering",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique worker identifier"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "User UID who owns this worker record"
+        },
+        "name": {
+          "type": "string",
+          "description": "Worker full name",
+          "maxLength": 100
+        },
+        "designation": {
+          "type": "string",
+          "description": "Job role / designation",
+          "maxLength": 100
+        },
+        "unit": {
+          "type": "string",
+          "description": "Plant unit (Furnace A, Furnace B, CCM, etc.)",
+          "maxLength": 100
+        },
+        "salary": {
+          "type": "number",
+          "description": "Monthly base salary"
+        },
+        "orderIndex": {
+          "type": "number",
+          "description": "Manual ordering index for list sorting"
+        },
+        "employeeCode": {
+          "type": "string",
+          "description": "Optional employee code"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Optional phone number"
+        },
+        "fatherName": {
+          "type": "string",
+          "description": "Optional father or guardian name"
+        },
+        "aadharNumber": {
+          "type": "string",
+          "description": "Optional 12-digit Aadhaar card number"
+        },
+        "address": {
+          "type": "string",
+          "description": "Optional residential address"
+        },
+        "panNumber": {
+          "type": "string",
+          "description": "Optional PAN card number"
+        },
+        "joiningDate": {
+          "type": "string",
+          "description": "Optional date of joining"
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "Optional date of birth YYYY-MM-DD"
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Optional bank account number"
+        },
+        "ifscCode": {
+          "type": "string",
+          "description": "Optional bank IFSC code"
+        },
+        "bankName": {
+          "type": "string",
+          "description": "Optional bank name and branch"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional worker notes"
+        },
+        "addedInMonthKey": {
+          "type": "string",
+          "description": "Month key when worker joined (e.g. 2026-11)"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of last modification"
+        }
+      },
+      "required": ["id", "ownerId", "name", "designation", "unit", "salary"]
+    },
+    "AttendanceMonthlyData": {
+      "title": "AttendanceMonthlyData",
+      "description": "Monthly attendance codes and worker rosters document",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Document ID"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "User UID who owns this data"
+        },
+        "attendance": {
+          "type": "object",
+          "description": "Nested attendance records: workerId -> monthKey -> day -> shiftCode"
+        },
+        "workers": {
+          "type": "array",
+          "description": "Active workers list"
+        },
+        "monthlyWorkersDb": {
+          "type": "object",
+          "description": "Independent monthly worker roster lists"
+        },
+        "masterWorkers": {
+          "type": "array",
+          "description": "Master directory worker profiles"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of last update"
+        }
+      },
+      "required": ["id", "ownerId"]
+    },
+    "AccountTransfer": {
+      "title": "AccountTransfer",
+      "description": "Cross-email database transfer package",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Transfer ID"
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Sender User UID"
+        },
+        "senderEmail": {
+          "type": "string",
+          "description": "Sender Email Address"
+        },
+        "targetEmail": {
+          "type": "string",
+          "description": "Target Email Address to receive the data"
+        },
+        "data": {
+          "type": "object",
+          "description": "Full staff and attendance payload"
+        },
+        "status": {
+          "type": "string",
+          "description": "Transfer status (pending, claimed)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Transfer timestamp"
+        }
+      },
+      "required": ["id", "senderId", "senderEmail", "targetEmail", "data"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Private user profile information"
+    },
+    "/users/{userId}/workers/{workerId}": {
+      "schema": {
+        "$ref": "#/entities/WorkerRecord"
+      },
+      "description": "Staff workers list belonging to a specific user"
+    },
+    "/users/{userId}/attendance/{monthDocId}": {
+      "schema": {
+        "$ref": "#/entities/AttendanceMonthlyData"
+      },
+      "description": "Monthly shift attendance records and rosters belonging to a user"
+    },
+    "/transfers/{transferId}": {
+      "schema": {
+        "$ref": "#/entities/AccountTransfer"
+      },
+      "description": "Account transfer packages between email IDs"
+    }
+  }
+}
